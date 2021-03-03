@@ -1,0 +1,17 @@
+{
+"contacts":
+[
+    {
+        "FullName": "Redd Bul",
+        "ContactNumber":"4165555556",
+        "EmailAddress":"givenwings@example.com"
+    },
+
+    {
+        "FullName": "Mona Sterr",
+        "ContactNumber":"4165555556",
+        "EmailAddress":"gamer@example.com"
+    },
+]
+
+}
