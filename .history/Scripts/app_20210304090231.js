@@ -69,7 +69,7 @@
 
     function displayHome()
     {
-      router.ActiveLink = "home";
+      router.activeLink = "home";
 
       loadHeader(router.ActiveLink);
       loadContent(router.ActiveLink);

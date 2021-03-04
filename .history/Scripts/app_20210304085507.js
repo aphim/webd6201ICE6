@@ -24,13 +24,13 @@
         //add event listener for content injection
         $("a").on("click", function()
         {
-          $(`#${router.ActiveLink}`).removeClass("active");
-          router.ActiveLink = $(this).attr("id");
-          loadContent(router.ActiveLink);
-          $(`#${router.ActiveLink}`).addClass("active");
+          $(`#${router.activeLink}`).removeClass("active");
+          router.activeLink = $(this).attr("id");
+          loadContent(router.activeLink);
+          $(`#${router.activeLink}`).addClass("active");
 
 
-          history.pushState({}, "", router.ActiveLink);
+          history.pushState({}, "", router.activeLink);
 
         });
 
@@ -69,10 +69,10 @@
 
     function displayHome()
     {
-      router.ActiveLink = "home";
+      router.activeLink = "home";
 
-      loadHeader(router.ActiveLink);
-      loadContent(router.ActiveLink);
+      loadHeader(router.activeLink);
+      loadContent(router.activeLink);
       loadFooter();
 
      
