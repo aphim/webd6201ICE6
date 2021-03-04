@@ -179,10 +179,7 @@
 
     function displayContactList() 
     {
-      authGuard();
 
-      //toggle login
-       toggleLogout();
       $("#contactListLink").attr("class", "nav-link active");
       
       if (localStorage.length > 0) 
@@ -333,7 +330,6 @@
 
             //redirect user to secure area
             location.href = "/contact-list";
-
           }
           else
           {
@@ -364,7 +360,7 @@
               {
                 //swap out login with logout
                 $("#loginListItem").html(
-                  `<a id="logout" class="nav-link" aria-current="page"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a>`
+                  `<a id="logout" class="nav-link" aria-current="page" href="#"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a>`
                 );
                 
                 $("#logout").on("click", function()
@@ -376,12 +372,6 @@
                   location.href = "/login";
                 });
 
-                //changes mouse to make them seem like it is active link
-                $("a").on("mouseover", function()
-                {
-                  $(this).css("cursor", "pointer");
-                });
-
                 $(`<li class="nav-item">
                 <a id="contactListLink" class="nav-link" aria-current="page" href="/contact-list"><i class="fas fa-users fa-lg"></i> Contact List</a>
                 </li>`).insertBefore("#loginListItem");
@@ -389,22 +379,12 @@
               }
               else
               {
-                //swap out logout with login
+                //swap out login with logout
                 $("#loginListItem").html(
                   `<a id="login" class="nav-link" aria-current="page"><i class="fas fa-sign-in-alt fa-lg"></i> Login</a>`
                 );
               }
     }
-
-function authGuard()
-{
-  if(!sessionStorage.getItem("user"))
-  {
-      //redirect
-      location.href = "/login";
-  }   
-}
-
 function display404()
 {
 
@@ -424,7 +404,7 @@ function display404()
             return displayServices;
         case "contact":
             return displayContact;
-        case "contact-list":
+        case "contact-List":
           return displayContactList;
         case "edit":
           return displayEdit;
@@ -434,10 +414,6 @@ function display404()
           return displayRegister;
         case "404":
           return display404;
-          default:
-            console.log("ERROR: callback does not exist " + activeLink);
-            break;
-
       } 
 
     }
@@ -451,6 +427,11 @@ function display404()
         loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
         
         loadFooter();
+
+
+        //toggle login
+        toggleLogout();
+
         
     }
 

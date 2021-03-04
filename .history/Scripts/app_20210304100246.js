@@ -179,10 +179,7 @@
 
     function displayContactList() 
     {
-      authGuard();
 
-      //toggle login
-       toggleLogout();
       $("#contactListLink").attr("class", "nav-link active");
       
       if (localStorage.length > 0) 
@@ -333,7 +330,6 @@
 
             //redirect user to secure area
             location.href = "/contact-list";
-
           }
           else
           {
@@ -376,12 +372,6 @@
                   location.href = "/login";
                 });
 
-                //changes mouse to make them seem like it is active link
-                $("a").on("mouseover", function()
-                {
-                  $(this).css("cursor", "pointer");
-                });
-
                 $(`<li class="nav-item">
                 <a id="contactListLink" class="nav-link" aria-current="page" href="/contact-list"><i class="fas fa-users fa-lg"></i> Contact List</a>
                 </li>`).insertBefore("#loginListItem");
@@ -395,16 +385,6 @@
                 );
               }
     }
-
-function authGuard()
-{
-  if(!sessionStorage.getItem("user"))
-  {
-      //redirect
-      location.href = "/login";
-  }   
-}
-
 function display404()
 {
 
@@ -451,6 +431,11 @@ function display404()
         loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
         
         loadFooter();
+
+
+        //toggle login
+        toggleLogout();
+
         
     }
 

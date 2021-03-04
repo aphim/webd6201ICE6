@@ -83,14 +83,12 @@ router.AddTable(["/",
                 "register",
                 "/login",
                 "/edit"]);
-
-let route = location.pathname;
-
-if (router.Find(route) > -1)
+                
+if (router.Find(location.pathname))
 {
-    router.ActiveLink = (route == "/") ? "home" : route.substring(1)
+    console.log("route found");
 }                
 else
 {   
-    router.ActiveLink = "404";
+    console.log("route not found");
 }

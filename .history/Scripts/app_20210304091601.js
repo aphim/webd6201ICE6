@@ -26,8 +26,9 @@
         {
           $(`#${router.ActiveLink}`).removeClass("active");
           router.ActiveLink = $(this).attr("id");
-          loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
+          loadContent(router.ActiveLink);
           $(`#${router.ActiveLink}`).addClass("active");
+
 
           history.pushState({}, "", router.ActiveLink);
 
@@ -45,16 +46,13 @@
     /**
      * injects the content elements into a page
      * @param {string} pageName 
-     * @param {function} callback
      */
-  function loadContent(pageName, callback)
+  function loadContent(pageName)
   {
       //inject the content
       $.get(`./Views/content/${pageName}.html`, function(data)
       { 
         $("main").html(data);
-
-        callback();
       }); 
 
   }
@@ -71,8 +69,10 @@
 
     function displayHome()
     {
-      console.log("home page")
-
+      loadHeader(router.ActiveLink);
+      loadContent(router.ActiveLink);
+      loadFooter();
+      
     }
 
     function displayAbout()
@@ -179,10 +179,7 @@
 
     function displayContactList() 
     {
-      authGuard();
 
-      //toggle login
-       toggleLogout();
       $("#contactListLink").attr("class", "nav-link active");
       
       if (localStorage.length > 0) 
@@ -228,12 +225,12 @@
            {
             localStorage.removeItem($(this).val());
            }
-           location.href = "/contact-list"; // refresh the page
+           location.href = "contact-list.html"; // refresh the page
          });
 
          $("#addButton").on("click", function() 
          {
-          location.href = "/edit";
+          location.href = "edit.html";
          });
       }
     }
@@ -284,7 +281,7 @@
           localStorage.setItem(key, contact.serialize());
 
           // return to the contact list
-          location.href = "/contact-list";
+          location.href = "contact-list.html";
           
         });
    
@@ -292,7 +289,7 @@
       $("#cancelButton").on("click", function()
       {
         // return to the contact list
-        location.href = "/contact-list";
+        location.href = "contact-list.html";
       });
     }
 
@@ -332,8 +329,7 @@
             messageArea.removeAttr("class").hide();
 
             //redirect user to secure area
-            location.href = "/contact-list";
-
+            location.href = "contact-list.html";
           }
           else
           {
@@ -348,7 +344,7 @@
       {
         document.forms[0].reset();
         // return to the contact list
-        location.href = "/home";
+        location.href = "index.html";
       });
     }
 
@@ -363,8 +359,8 @@
               if(sessionStorage.getItem("user"))
               {
                 //swap out login with logout
-                $("#loginListItem").html(
-                  `<a id="logout" class="nav-link" aria-current="page"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a>`
+                $("#login").html(
+                  `<a id="logout" class="nav-link" aria-current="page" href="#"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a>`
                 );
                 
                 $("#logout").on("click", function()
@@ -373,84 +369,55 @@
                   sessionStorage.clear();
       
                   //redirect to login
-                  location.href = "/login";
-                });
-
-                //changes mouse to make them seem like it is active link
-                $("a").on("mouseover", function()
-                {
-                  $(this).css("cursor", "pointer");
+                  location.href = "login.html";
                 });
 
                 $(`<li class="nav-item">
-                <a id="contactListLink" class="nav-link" aria-current="page" href="/contact-list"><i class="fas fa-users fa-lg"></i> Contact List</a>
-                </li>`).insertBefore("#loginListItem");
+                <a id="contactListLink" class="nav-link" aria-current="page" href="contact-list.html"><i class="fas fa-users fa-lg"></i> Contact List</a>
+                </li>`).insertBefore("#login");
       
               }
-              else
-              {
-                //swap out logout with login
-                $("#loginListItem").html(
-                  `<a id="login" class="nav-link" aria-current="page"><i class="fas fa-sign-in-alt fa-lg"></i> Login</a>`
-                );
-              }
     }
 
-function authGuard()
-{
-  if(!sessionStorage.getItem("user"))
-  {
-      //redirect
-      location.href = "/login";
-  }   
-}
-
-function display404()
-{
-
-}
-
-    function ActiveLinkCallBack(activeLink)
-    {
-      switch (activeLink) 
-      {
-        case "home":
-            return displayHome;
-        case "about":
-            return displayAbout;
-        case "projects":
-            return displayProjects;
-        case "services":
-            return displayServices;
-        case "contact":
-            return displayContact;
-        case "contact-list":
-          return displayContactList;
-        case "edit":
-          return displayEdit;
-        case "login":
-          return displayLogin;
-        case "register":
-          return displayRegister;
-        case "404":
-          return display404;
-          default:
-            console.log("ERROR: callback does not exist " + activeLink);
-            break;
-
-      } 
-
-    }
 
     function Start()
     {
         console.log("App Started...");
 
-        loadHeader(router.ActiveLink);
+        switch (document.title) 
+        {
+          case "Home":
+              displayHome();
+            break;
+          case "About":
+              displayAbout();
+            break;
+          case "Projects":
+              displayProjects();
+            break;
+          case "Services":
+              displayServices();
+            break;
+          case "Contact":
+              displayContact();
+            break;
+          case "Contact-List":
+            displayContactList();
+            break;
+          case "Edit":
+            displayEdit();
+            break;
+          case "Login":
+            displayLogin();
+          break;
+          case "Register":
+            displayRegister();
+          break;
+        }
 
-        loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
-        
-        loadFooter();
+        //toggle login
+        toggleLogout();
+
         
     }
 

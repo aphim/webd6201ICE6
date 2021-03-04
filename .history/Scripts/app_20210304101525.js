@@ -179,8 +179,7 @@
 
     function displayContactList() 
     {
-      authGuard();
-
+      
       //toggle login
        toggleLogout();
       $("#contactListLink").attr("class", "nav-link active");

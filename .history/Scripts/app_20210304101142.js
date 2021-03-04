@@ -179,8 +179,6 @@
 
     function displayContactList() 
     {
-      authGuard();
-
       //toggle login
        toggleLogout();
       $("#contactListLink").attr("class", "nav-link active");
@@ -401,7 +399,7 @@ function authGuard()
   if(!sessionStorage.getItem("user"))
   {
       //redirect
-      location.href = "/login";
+      location.href = "login.html";
   }   
 }
 
